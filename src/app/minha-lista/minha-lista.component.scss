@@ -1,17 +1,56 @@
+/* =========================================================
+   Light theme (default)
+   The .container holds the CSS custom properties (tokens)
+   that every descendant reads via var(--token).
+   ========================================================= */
 .container {
     max-width: 600px;
     width: 80%;
     margin: 0 auto;
+    color: #4b4949;
+
+    /* Theme tokens — light defaults */
+    --text-primary: #4b4949;
+    --text-secondary: #000000;
+    --text-on-accent: #ffffff;
+    --bg-surface: #ffffff;
+    --bg-row-alt: #e6f0ff;
+    --bg-header: #007bff;
+    --border-color: #dddddd;
+    --input-bg: #ffffff;
+    --input-border: #007bff;
+    --input-border-focus: #0056b3;
+    --button-bg: #007bff;
+    --button-bg-hover: #0056b3;
+    --btn-clear-bg: #dc3545;       /* vermelho */
+    --btn-clear-hover: #c82333;
+    --btn-add-bg: #28a745;         /* verde */
+    --btn-add-hover: #218838;
+
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
 }
 
 h1 {
     font-size: 24px;
     margin-bottom: 20px;
-    color: #4b4949;
+    color: var(--text-primary);
     text-align: center;
 }
 
-.add-item-form{
+/* Wrapper do título + botão de tema (alinha os dois na mesma linha) */
+.title-bar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: 20px; /* assume o espaçamento que era do h1 */
+}
+
+.title-bar h1 {
+    margin-bottom: 0; /* anula o margin-bottom herdado do h1 solto */
+}
+
+.add-item-form {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -19,65 +58,129 @@ h1 {
     margin-bottom: 10px;
 }
 
-input{
+input {
     flex: 1;
     padding: 10px;
-    border: 2px solid #007bff;
+    border: 2px solid var(--input-border);
     border-radius: 6px;
     font-size: 16px;
-    min-width: 0; /* Permite que encolham */
+    min-width: 0; /* Allows shrinking */
+    background-color: var(--input-bg);
+    color: var(--text-primary);
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
 }
 
-input:focus{
+input:focus {
     outline: none;
-    border-color: #0056b3;
+    border-color: var(--input-border-focus);
 }
 
-button{
+button {
     padding: 10px 20px;
-    background-color: #007bff;
-    color: #fff;
+    background-color: var(--button-bg);
+    color: var(--text-on-accent);
     border: none;
     border-radius: 6px;
     cursor: pointer;
     font-size: 16px;
-    min-width: 0; /* Permite que encolham */
+    min-width: 0; /* Allows shrinking */
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-button:hover{
-    background-color: #0056b3;
+button:hover {
+    background-color: var(--button-bg-hover);
 }
 
-table{
+/* Botão "Clear" — vermelho (danger) */
+.btn-clear {
+    background-color: var(--btn-clear-bg);
+    color: #ffffff; /* branco fixo pra contraste com o vermelho nos dois temas */
+}
+
+.btn-clear:hover {
+    background-color: var(--btn-clear-hover);
+}
+
+/* Botão "Add" — verde (success) */
+.btn-add {
+    background-color: var(--btn-add-bg);
+    color: #ffffff; /* branco fixo pra contraste com o verde nos dois temas */
+}
+
+.btn-add:hover {
+    background-color: var(--btn-add-hover);
+}
+
+table {
     width: 100%;
     border-collapse: collapse;
     margin-top: 10px;
-    min-width: 0; /* Permite que encolham */
+    min-width: 0; /* Allows shrinking */
 }
 
-thead{
-    background-color:   #007bff;
-    color: #fff;
+thead {
+    background-color: var(--bg-header);
+    color: var(--text-on-accent);
 }
 
-th, td{
+th, td {
     padding: 12px;
-    border: 1px solid #ddd;
+    border: 1px solid var(--border-color);
     text-align: center;
-    min-width: 0; /* Permite que encolham */
+    min-width: 0; /* Allows shrinking */
+    color: var(--text-primary);
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
 }
 
-tr:nth-child(even){
-    background-color: #e6f0ff;
+tr:nth-child(even) {
+    background-color: var(--bg-row-alt);
 }
 
-input[type="checkbox"]{
+input[type="checkbox"] {
     transform: scale(1.5);
     cursor: pointer;
-    min-width: 0; /* Permite que encolham */
+    min-width: 0; /* Allows shrinking */
 }
 
-.item-riscado{
+.item-riscado {
     text-decoration: line-through;
-    color: #000000;
+    color: var(--text-secondary);
+}
+
+/* =========================================================
+   Dark theme
+   Toggled by toggleTheme() in the component, which adds the
+   .dark-theme class to <body>. We react to it with
+   :host-context(body.dark-theme) — that respects the
+   component's view encapsulation, no HTML change required.
+   ========================================================= */
+
+/* Body sits outside the component, so we use ::ng-deep once
+   just to give the page a proper dark background. */
+::ng-deep body.dark-theme {
+    background-color: #121212;
+    color: #e0e0e0;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Override the theme tokens on .container when the body is
+   in dark mode. Every element that uses var(--token) inside
+   the component picks the new values up automatically. */
+:host-context(body.dark-theme) .container {
+    --text-primary: #f1f1f1;
+    --text-secondary: #9a9a9a;
+    --text-on-accent: #121212;
+    --bg-surface: #1e1e1e;
+    --bg-row-alt: #262626;
+    --bg-header: #2d2d2d;
+    --border-color: #3a3a3a;
+    --input-bg: #2a2a2a;
+    --input-border: #4dabf7;
+    --input-border-focus: #74c0fc;
+    --button-bg: #4dabf7;
+    --button-bg-hover: #74c0fc;
+    --btn-clear-bg: #e03131;       /* vermelho mais suave pro dark */
+    --btn-clear-hover: #ff5252;
+    --btn-add-bg: #208b34;         /* verde mais suave pro dark */
+    --btn-add-hover: #40c057;
 }
