@@ -148,6 +148,72 @@ input[type="checkbox"] {
 }
 
 /* =========================================================
+   Mensagem de erro inline (validação do form)
+   Aparece logo abaixo do .add-item-form quando errorMessage
+   está preenchida. Responsiva + dark mode.
+   ========================================================= */
+.error-message {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    box-sizing: border-box;
+
+    /* 90% da largura em telas pequenas, até 600px em telas grandes */
+    width: 90%;
+    max-width: 600px;
+    margin: 12px auto 0;
+    padding: 12px 16px;
+
+    background-color: #fdecea;
+    color: #b71c1c;
+    border: 1px solid #f5c2c7;
+    border-radius: 6px;
+
+    font-size: 14px;
+    line-height: 1.4;
+    text-align: left;
+
+    animation: errorSlideIn 0.25s ease-out;
+}
+
+.error-icon {
+    flex-shrink: 0;
+    font-size: 18px;
+    line-height: 1;
+}
+
+.error-text {
+    flex: 1;
+    word-break: break-word; /* evita overflow em mensagens longas no mobile */
+}
+
+/* Animação de entrada (slide + fade) */
+@keyframes errorSlideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-6px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Ajustes para telas pequenas (mobile) */
+@media (max-width: 480px) {
+    .error-message {
+        width: 95%;
+        padding: 10px 12px;
+        font-size: 13px;
+        gap: 8px;
+    }
+
+    .error-icon {
+        font-size: 16px;
+    }
+}
+
+/* =========================================================
    Dark theme
    Toggled by toggleTheme() in the component, which adds the
    .dark-theme class to <body>. We react to it with
@@ -181,6 +247,14 @@ input[type="checkbox"] {
     --button-bg-hover: #74c0fc;
     --btn-clear-bg: #e03131;       /* vermelho mais suave pro dark */
     --btn-clear-hover: #ff5252;
-    --btn-add-bg: #208b34;         /* verde mais suave pro dark */
+    --btn-add-bg: #2f9e44;         /* verde mais suave pro dark */
     --btn-add-hover: #40c057;
+}
+
+/* Mensagem de erro no dark mode (mantém o vermelho como sinal de alerta,
+   só escurece o fundo pra não ofuscar a vista) */
+:host-context(body.dark-theme) .error-message {
+    background-color: #3a1f1f;
+    color: #ff8a80;
+    border-color: #b71c1c;
 }

@@ -5,14 +5,23 @@
         {{ isDark ? '☀️' : '🌙' }}
         </button>
     </div>
-    <form #frm="ngForm" class="add-item-form">
+    <form #frm="ngForm" class="add-item-form" (ngSubmit)="$event.preventDefault()">
 
         <button type="reset" (click)="eraseItem()" class="btn-clear">Clear</button>
-        <input type="number" placeholder="Qty" name="itemQtd" id="qtd" [(ngModel)]="qty">
-        <input type="text" placeholder="Item" name="itemName" id="item" [(ngModel)]="item">        
+        <input type="number" placeholder="Qty" name="itemQtd" id="qtd"
+               [(ngModel)]="qty" (input)="clearError()" min="1">
+        <input type="text" placeholder="Item" name="itemName" id="item"
+               [(ngModel)]="item" (input)="clearError()" required>
         <button type="submit" (click)="addItem()" class="btn-add">Add</button>
-            
+
     </form>
+
+    @if (errorMessage) {
+        <div class="error-message" role="alert">
+            <span class="error-icon" aria-hidden="true">⚠️</span>
+            <span class="error-text">{{ errorMessage }}</span>
+        </div>
+    }
 
             <div>
             <table>
@@ -38,7 +47,7 @@
                     </tr>
                     } @empty {
                         <tr>
-                            <td colspan="3">Nenhum item adicionado.</td>
+                            <td colspan="3">No items added.</td>
                         </tr>
                     }
 
