@@ -1,0 +1,83 @@
+.container {
+    max-width: 600px;
+    width: 80%;
+    margin: 0 auto;
+}
+
+h1 {
+    font-size: 24px;
+    margin-bottom: 20px;
+    color: #4b4949;
+    text-align: center;
+}
+
+.add-item-form{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 10px;
+}
+
+input{
+    flex: 1;
+    padding: 10px;
+    border: 2px solid #007bff;
+    border-radius: 6px;
+    font-size: 16px;
+    min-width: 0; /* Permite que encolham */
+}
+
+input:focus{
+    outline: none;
+    border-color: #0056b3;
+}
+
+button{
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 16px;
+    min-width: 0; /* Permite que encolham */
+}
+
+button:hover{
+    background-color: #0056b3;
+}
+
+table{
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+    min-width: 0; /* Permite que encolham */
+}
+
+thead{
+    background-color:   #007bff;
+    color: #fff;
+}
+
+th, td{
+    padding: 12px;
+    border: 1px solid #ddd;
+    text-align: center;
+    min-width: 0; /* Permite que encolham */
+}
+
+tr:nth-child(even){
+    background-color: #e6f0ff;
+}
+
+input[type="checkbox"]{
+    transform: scale(1.5);
+    cursor: pointer;
+    min-width: 0; /* Permite que encolham */
+}
+
+.item-riscado{
+    text-decoration: line-through;
+    color: #000000;
+}

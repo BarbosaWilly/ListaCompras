@@ -1,1 +1,43 @@
-<p>minha-lista works!</p>
+<div class="container">
+    <h1>Shopping List</h1>
+    <button type="button" (click)="toggleTheme()">
+    {{ isDark ? '☀️' : '🌙' }}
+    </button>
+    <form #frm="ngForm" class="add-item-form">
+
+        <button type="reset" (click)="eraseItem()">Clear</button>
+        <input type="number" placeholder="Qty" name="itemQtd" id="qtd" [(ngModel)]="qty">
+        <input type="text" placeholder="Item" name="itemName" id="item" [(ngModel)]="item">        
+        <button type="submit" (click)="addItem()">Add</button>
+            
+    </form>
+
+            <div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Qty</th>
+                        <th>Name</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    @for(elemento of list; track elemento){
+                    <tr>
+                        <td>{{ elemento.qty }}</td>
+                        <td>{{ elemento.name }}</td>
+                        <td>
+                            <input type="checkbox" (change)="toggleItemStatus(elemento)" [checked]="elemento.buyed">
+                        </td>
+                    </tr>
+                    } @empty {
+                        <tr>
+                            <td colspan="3">Nenhum item adicionado.</td>
+                        </tr>
+                    }
+
+                </tbody>
+            </table>
+        </div>
+</div>
