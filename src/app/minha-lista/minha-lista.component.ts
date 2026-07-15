@@ -39,7 +39,6 @@ export class MinhaListaComponent {
     itemList.name = trimmedName;
     itemList.qty = this.qty;
     this.list.push(itemList);
-    console.table(this.list);
 
     this.item = '';
     this.qty = undefined;
