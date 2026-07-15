@@ -95,6 +95,13 @@
             ],
             "scripts": []
           }
+        },
+        "deploy": {
+          "builder": "angular-cli-ghpages:deploy",
+          "options": {
+            "baseHref": "/ListaCompras/",
+            "buildTarget": "ListaCompras:build"
+          }
         }
       }
     }
