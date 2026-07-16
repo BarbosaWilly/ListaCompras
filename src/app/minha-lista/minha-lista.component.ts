@@ -20,8 +20,11 @@ export class MinhaListaComponent {
 
   ngOnInit(): void {
     this.list = this.storage.load();
-  }
 
+    this.isDark = this.storage.loadTheme();
+    document.body.classList.toggle('dark-theme', this.isDark);
+  }
+  
   addItem() {
     const trimmedName = this.item.trim();
 
@@ -51,7 +54,7 @@ export class MinhaListaComponent {
 
     this.item = '';
     this.qty = undefined;
-    this.errorMessage = ''; 
+    this.errorMessage = '';
   }
 
   toggleItemStatus(item: ItemList) {
@@ -64,9 +67,10 @@ export class MinhaListaComponent {
     this.storage.clear();
   }
 
-  toggleTheme() {
+  toggleTheme(): void {
     this.isDark = !this.isDark;
     document.body.classList.toggle('dark-theme', this.isDark);
+    this.storage.saveTheme(this.isDark);
   }
 
   clearError(): void {
@@ -82,5 +86,9 @@ export class MinhaListaComponent {
 
   saveList(): void {
     this.storage.save(this.list);
+  }
+
+  saveLocalTheme(): void {
+
   }
 }

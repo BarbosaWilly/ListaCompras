@@ -7,6 +7,7 @@ import { ItemList } from '../minha-lista/itemList';
 export class StorageService {
 
   private readonly KEY = 'shopping-list';
+  private readonly THEME_KEY = 'theme';
 
   save(list: ItemList[]): void {
     localStorage.setItem(this.KEY, JSON.stringify(list));
@@ -19,5 +20,14 @@ export class StorageService {
 
   clear(): void {
     localStorage.removeItem(this.KEY);
+  }
+
+  saveTheme(isDark: boolean): void {
+    localStorage.setItem(this.THEME_KEY, JSON.stringify(isDark));
+  }
+
+  loadTheme(): boolean {
+    const theme = localStorage.getItem(this.THEME_KEY);
+    return theme ? JSON.parse(theme) : false;
   }
 }
