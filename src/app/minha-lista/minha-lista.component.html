@@ -3,56 +3,58 @@
         <button type="button" (click)="eraseItem()" class="btn-clear">Clear All</button>
         <h1>Shopping List</h1>
         <button type="button" (click)="toggleTheme()">
-        {{ isDark ? '☀️' : '🌙' }}
+            {{ isDark ? '☀️' : '🌙' }}
         </button>
     </div>
     <form #frm="ngForm" class="add-item-form" (ngSubmit)="$event.preventDefault()">
-        
+
         <button type="button" (click)="clearChecked()" class="btn-clear">Clear</button>
-        <input type="number" placeholder="Qty" name="itemQtd" id="qtd"
-               [(ngModel)]="qty" (input)="clearError()" min="1">
-        <input type="text" placeholder="Item" name="itemName" id="item"
-               [(ngModel)]="item" (input)="clearError()" required>
+        
+        <input type="number" placeholder="Qty" name="itemQtd" id="qtd" [(ngModel)]="qty" 
+        (input)="clearError()" min="1" max="1000">
+        <input type="text" placeholder="Item" name="itemName" 
+        id="item" maxlength="50" [(ngModel)]="item" (input)="clearError()" required>
+
         <button type="submit" (click)="addItem()" class="btn-add">Add</button>
 
     </form>
 
     @if (errorMessage) {
-        <div class="error-message" role="alert">
-            <span class="error-icon" aria-hidden="true">⚠️</span>
-            <span class="error-text">{{ errorMessage }}</span>
-        </div>
+    <div class="error-message" role="alert">
+        <span class="error-icon" aria-hidden="true">⚠️</span>
+        <span class="error-text">{{ errorMessage }}</span>
+    </div>
     }
 
-            <div>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Qty</th>
-                        <th>Name</th>
-                        <th>Status</th>
-                    </tr>
-                </thead>
-                <tbody>
+    <div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Qty</th>
+                    <th>Name</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
 
-                    @for(elemento of list; track elemento){
-                    <tr>
-                        <td>{{ elemento.qty }}</td>
-                        <td><span [class.item-riscado]="elemento.buyed">
-                                {{ elemento.name }}
-                            </span>
-                        </td>
-                        <td>
-                            <input type="checkbox" (change)="toggleItemStatus(elemento)" [checked]="elemento.buyed">
-                        </td>
-                    </tr>
-                    } @empty {
-                        <tr>
-                            <td colspan="3">No items added.</td>
-                        </tr>
-                    }
+                @for(elemento of list; track elemento){
+                <tr>
+                    <td>{{ elemento.qty }}</td>
+                    <td><span [class.item-riscado]="elemento.buyed">
+                            {{ elemento.name }}
+                        </span>
+                    </td>
+                    <td>
+                        <input type="checkbox" (change)="toggleItemStatus(elemento)" [checked]="elemento.buyed">
+                    </td>
+                </tr>
+                } @empty {
+                <tr>
+                    <td colspan="3">No items added.</td>
+                </tr>
+                }
 
-                </tbody>
-            </table>
-        </div>
+            </tbody>
+        </table>
+    </div>
 </div>
