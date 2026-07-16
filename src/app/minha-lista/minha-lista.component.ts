@@ -9,16 +9,14 @@ import { StorageService } from '../services/storage.service';
   templateUrl: './minha-lista.component.html',
   styleUrl: './minha-lista.component.scss'
 })
-
-
 export class MinhaListaComponent {
   item: string = '';
   qty?: number;
   list: ItemList[] = [];
   isDark = false;
-  constructor(private storage: StorageService) { }
-  /** Mensagem de erro exibida inline abaixo do formulário. */
   errorMessage: string = '';
+
+  constructor(private storage: StorageService) { }
 
   ngOnInit(): void {
     this.list = this.storage.load();
@@ -27,17 +25,20 @@ export class MinhaListaComponent {
   addItem() {
     const trimmedName = this.item.trim();
 
-    // Validação: nome não vazio + quantidade > 0
+    // 1. Validação de campos vazios ou quantidade zerada/negativa
     if (
       trimmedName === '' ||
       this.qty === undefined ||
       this.qty === null ||
       this.qty <= 0
     ) {
-      this.errorMessage =
-        'Please enter a valid item and a quantity greater than zero.';
-      // NÃO limpamos os inputs — a pessoa precisa ver o que digitou
-      // pra entender o que errou e corrigir.
+      this.errorMessage = 'Please enter a valid item and a quantity greater than zero.';
+      return;
+    }
+
+    // 2. Nova validação: Limite máximo de 1000 unidades
+    if (this.qty > 1000) {
+      this.errorMessage = 'The maximum allowed quantity is 1000.';
       return;
     }
 
@@ -50,12 +51,12 @@ export class MinhaListaComponent {
 
     this.item = '';
     this.qty = undefined;
-    this.errorMessage = ''; // limpa após sucesso
+    this.errorMessage = ''; 
   }
 
   toggleItemStatus(item: ItemList) {
     item.buyed = !item.buyed;
-     this.saveList();
+    this.saveList();
   }
 
   eraseItem() {
@@ -68,20 +69,16 @@ export class MinhaListaComponent {
     document.body.classList.toggle('dark-theme', this.isDark);
   }
 
-  /**
-   * Chamado em cada (input) dos campos. Assim que a pessoa
-   * começa a corrigir, a mensagem some na hora (feedback positivo).
-   */
   clearError(): void {
     if (this.errorMessage) {
       this.errorMessage = '';
     }
   }
 
-clearChecked(): void {
-  this.list = this.list.filter(item => !item.buyed);
-  this.saveList();
-}
+  clearChecked(): void {
+    this.list = this.list.filter(item => !item.buyed);
+    this.saveList();
+  }
 
   saveList(): void {
     this.storage.save(this.list);
