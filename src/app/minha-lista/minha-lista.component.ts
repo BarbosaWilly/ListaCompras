@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ItemList } from "./itemList";
+import { StorageService } from '../services/storage.service';
 
 @Component({
   selector: 'app-minha-lista',
@@ -8,14 +9,20 @@ import { ItemList } from "./itemList";
   templateUrl: './minha-lista.component.html',
   styleUrl: './minha-lista.component.scss'
 })
+
+
 export class MinhaListaComponent {
   item: string = '';
   qty?: number;
   list: ItemList[] = [];
   isDark = false;
-
+  constructor(private storage: StorageService) { }
   /** Mensagem de erro exibida inline abaixo do formulário. */
   errorMessage: string = '';
+
+  ngOnInit(): void {
+    this.list = this.storage.load();
+  }
 
   addItem() {
     const trimmedName = this.item.trim();
@@ -39,6 +46,7 @@ export class MinhaListaComponent {
     itemList.name = trimmedName;
     itemList.qty = this.qty;
     this.list.push(itemList);
+    this.saveList();
 
     this.item = '';
     this.qty = undefined;
@@ -47,11 +55,12 @@ export class MinhaListaComponent {
 
   toggleItemStatus(item: ItemList) {
     item.buyed = !item.buyed;
+     this.saveList();
   }
 
   eraseItem() {
     this.list = [];
-    this.errorMessage = ''; // limpa também ao resetar a lista
+    this.storage.clear();
   }
 
   toggleTheme() {
@@ -68,5 +77,13 @@ export class MinhaListaComponent {
       this.errorMessage = '';
     }
   }
-  
+
+clearChecked(): void {
+  this.list = this.list.filter(item => !item.buyed);
+  this.saveList();
+}
+
+  saveList(): void {
+    this.storage.save(this.list);
+  }
 }

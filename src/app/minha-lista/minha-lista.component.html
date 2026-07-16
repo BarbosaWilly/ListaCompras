@@ -1,13 +1,14 @@
 <div class="container">
     <div class="title-bar">
+        <button type="button" (click)="eraseItem()" class="btn-clear">Clear All</button>
         <h1>Shopping List</h1>
         <button type="button" (click)="toggleTheme()">
         {{ isDark ? '☀️' : '🌙' }}
         </button>
     </div>
     <form #frm="ngForm" class="add-item-form" (ngSubmit)="$event.preventDefault()">
-
-        <button type="reset" (click)="eraseItem()" class="btn-clear">Clear</button>
+        
+        <button type="button" (click)="clearChecked()" class="btn-clear">Clear</button>
         <input type="number" placeholder="Qty" name="itemQtd" id="qtd"
                [(ngModel)]="qty" (input)="clearError()" min="1">
         <input type="text" placeholder="Item" name="itemName" id="item"
